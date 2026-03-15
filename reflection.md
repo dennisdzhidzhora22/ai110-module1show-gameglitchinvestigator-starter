@@ -8,12 +8,19 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 - List at least two concrete bugs you noticed at the start  
   (for example: "the secret number kept changing" or "the hints were backwards").
 
-There weren't any visible bugs in the game when I started it, but then I ran out of guesses, and the actual number was NOT being hinted at by the hints.
-I also noticed that the "New Game" button is probably broken, as nothing happens after I enter another guess and submit it. The number of guesses also seems to be broken after starting a new game, since it started at 7 at the very beginning, but then started at 8 once I pressed New Game.
+There weren't any visible bugs in the game when I started it, but then I ran out of guesses, and the actual number was NOT being hinted at by the hints. I was narrowing down the secret number, and passed a point where the hint changed to the opposite direction, which gave a small range of possible numbers. But when the real secret number was revealed, it was nowhere near the possible range.
 
-4. Except block that handles string answers is bugged - lexicographical string comparison doesn't behave as desired. If the guess is always an int, the block is unreachable, so should probably not be kept.
+I also noticed that the "New Game" button is probably broken, as nothing happens after I enter another guess and submit it. No hint is given. 
+
+The number of guesses also seems to be broken after starting a new game, since it started at 7 at the very beginning, but then started at 8 once I pressed New Game. For consistency, the number should start at 7, not 8.
+
+Except block that handles string answers is bugged - lexicographical string comparison doesn't behave as desired. If the guess is always an int, the block is unreachable, so should probably not be kept.
 
 Update on the wrong hints - the direction of the hints is also swapped.
+
+The range of numbers and number of guesses are not consistent throughout difficulties. With increasing difficulty, the range of numbers should increase, and number of guesses should decrease. Also, the range is hardcoded in displayed info.
+
+Switching difficulties does not reset the number of attempts left and other state info, like the range and score.
 
 ## 2. How did you use AI as a teammate?
 
