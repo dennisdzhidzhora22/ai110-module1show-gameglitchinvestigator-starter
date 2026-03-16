@@ -61,9 +61,15 @@ For most of the bugs, I tested the changes manually by doing multiple plays of t
 
 ---
 
+While the secret number itself didn't really change in the original app, the hints giving the wrong direction made it seem that the secret number was changing. You could have been getting closer to the secret number, but the hints would lead you back in the opposite direction. As I understand it, each time a Streamlit app is updated by something like a button press, the whole script is run again from top to bottom. Sessions however also preserve their state between reruns, meaning that the values of variables will persist if they weren't directly changed. The most impactful change that finally gave a stable secret number was fixing the hint direction. Fixing the string conversion issue also helped significantly.
+
 ## 5. Looking ahead: your developer habits
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
   - This could be a testing habit, a prompting strategy, or a way you used Git.
 - What is one thing you would do differently next time you work with AI on a coding task?
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+
+---
+
+One strategy from this project I want to reuse is verifying changes by AI with targeted tests. Next time I work with AI on a coding task, one thing I would do differently is keeping changes in manageable smaller chunks instead of big changes, to allow for more thorough review and testing of changes proposed by AI. This project showed me that AI generated code can indeed be a big time saver, but that depends on if the intention and guidance behind it is clear or not.
