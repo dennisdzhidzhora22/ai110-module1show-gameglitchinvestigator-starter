@@ -1,5 +1,9 @@
+# FIX: refactored by moving logic-related functions into logic_utils.py. used claude code to copy each function over with fixes made previously
+
 def get_range_for_difficulty(difficulty: str):
     """Return (low, high) inclusive range for a given difficulty."""
+
+    # FIX: range sizes were not in logical order, hard range (1-50) was smaller than normal (1-100). refactored using claude code
     if difficulty == "Easy":
         return 1, 20
     if difficulty == "Normal":
@@ -38,6 +42,8 @@ def check_guess(guess, secret):
 
     outcome examples: "Win", "Too High", "Too Low"
     """
+
+    # FIX: incorrect error handling, converted secret and guess to strings instead of ints, causing incorrect lexicographical comparison. found by claude code, fixed by me.
     try:
         guess = int(guess)
         secret = int(secret)
@@ -46,6 +52,8 @@ def check_guess(guess, secret):
 
     if guess == secret:
         return "Win", "🎉 Correct!"
+    
+    # FIX: hint directions were swapped, Go HIGHER showed when guess was too high and vice versa. reported by me, found and fixed by claude code.
     if guess > secret:
         return "Too High", "📉 Go LOWER!"
     else:
@@ -61,6 +69,7 @@ def update_score(current_score: int, outcome: str, attempt_number: int):
         return current_score + points
 
     if outcome == "Too High":
+        # FIX: rewarded +5 points on even-numbered attempts instead of always subtracting 5. found and fixed by claude code.
         return current_score - 5
 
     if outcome == "Too Low":

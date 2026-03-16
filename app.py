@@ -15,6 +15,7 @@ difficulty = st.sidebar.selectbox(
     index=1,
 )
 
+# FIX: attempt numbers were not in logical order, normal count (8) was larger than easy count (6). refactored with claude code
 attempt_limit_map = {
     "Easy": 8,
     "Normal": 6,
@@ -27,6 +28,7 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
+# FIX: switching difficulty didn't reset the game state. found by me, difficulty tracking added by claude code
 if "difficulty" not in st.session_state:
     st.session_state.difficulty = difficulty
 
@@ -41,6 +43,7 @@ if st.session_state.difficulty != difficulty:
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
+# FIX: number of attempts set to 1 instead of 0 on the very first game. issue noticed by me and claude code found the exact location of the bug
 if "attempts" not in st.session_state:
     st.session_state.attempts = 0
 
@@ -77,9 +80,10 @@ with col3:
 
 if new_game:
     st.session_state.attempts = 0
+    # FIX: had a hardcoded randint(1, 100). spotted and fixed by myself
     st.session_state.secret = random.randint(low, high)
+    # FIX: status is not being reset, leading to game stopping instead of restarting. spotted by claude code and fixed by me
     st.session_state.status = "playing"
-    # FIXED: status is not being reset, leading to game stopping instead of restarting
     st.success("New game started.")
     st.rerun()
 
@@ -101,8 +105,8 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
-        # FIXED: Sets up an issue further down the line with secret becoming a string
-        # Handled in check_guess(), comparison in except block is bugged
+        # FIX: Sets up an issue further down the line with secret becoming a string, causing incorrect lexicographical comparison in check_guess().
+        # reported by me, found and fixed by claude code.
         secret = st.session_state.secret
 
         outcome, message = check_guess(guess_int, secret)
@@ -132,7 +136,10 @@ if submit:
                     f"Score: {st.session_state.score}"
                 )
 
+# FIX: number of attempts left was updated only after it was displayed, causing games to end with 1 remaining attempt displayed. 
+# moved past submit handler to display after updating. reported by me, found and fixed by claude code
 st.info(
+    # FIX: was hardcoded as "between 1 and 100" regardless of difficulty. this was spotted and fixed by claude code
     f"Guess a number between {low} and {high}. "
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
